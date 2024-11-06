@@ -1,19 +1,22 @@
 import { createRoot } from 'react-dom/client'
-import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
 import { Provider } from 'react-redux';
-import {store} from './store';
+
+import {createTheme, CssBaseline, ThemeProvider} from "@mui/material";
+import {blue, grey} from '@mui/material/colors';
+
 import App from './App.tsx'
+import {store} from './store';
 
 const theme = createTheme({
     palette: {
         primary: {
-            main: '#1976d2',
+            main: blue[500],
         },
         secondary: {
             main: '#ffffff',
         },
         background: {
-            default: '#f0f0f0',
+            default: grey[50],
         },
     },
     typography: {

@@ -97,8 +97,8 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
                                         '& fieldset': { border: 'none' },
                                     }}
                                 >
-                                    <MenuItem value="name">Name</MenuItem>
-                                    <MenuItem value="status">Status</MenuItem>
+                                    <MenuItem value="name">Filter by name</MenuItem>
+                                    <MenuItem value="status">Filter by status</MenuItem>
                                 </Select>
                             </FormControl>
                         </InputAdornment>

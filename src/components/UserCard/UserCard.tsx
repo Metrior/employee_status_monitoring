@@ -1,7 +1,19 @@
 import React, {memo, useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 
-import {Card, CardContent, Typography, Select, MenuItem, SelectChangeEvent, Avatar, Box} from '@mui/material';
+import {
+    Card,
+    CardContent,
+    Typography,
+    Select,
+    MenuItem,
+    SelectChangeEvent,
+    Avatar,
+    Box,
+    ListItemIcon
+} from '@mui/material';
+import TripOriginIcon from '@mui/icons-material/TripOrigin';
+import { red, blue, green, yellow } from '@mui/material/colors';
 
 import {UpdateData, updateUserById} from '../../features/usersSlice';
 import {User} from '../../api/usersApi';
@@ -45,7 +57,7 @@ const UserCard: React.FC<UserCardProps> = memo(({ user }) => {
                 <Avatar
                     alt={user.name}
                     src={user.image}
-                    sx={{ width: 160, height: 160 }}
+                    sx={{ width: 140, height: 140 }}
                 />
 
                 <Box>
@@ -55,13 +67,55 @@ const UserCard: React.FC<UserCardProps> = memo(({ user }) => {
                         onChange={handleSelectChange}
                         variant="standard"
                         sx={{
-                            width: 130,
+                            width: 150,
+                            '& .MuiSelect-select': {
+                                display: 'flex',
+                                flexDirection: 'row',
+                            },
+                            '& .MuiListItemIcon-root': {
+                                minWidth: 28,
+                                alignItems: 'center',
+                            }
                         }}
                     >
-                        <MenuItem value="Working">Working</MenuItem>
-                        <MenuItem value="On Vacation">On Vacation</MenuItem>
-                        <MenuItem value="Lunch Time">Lunch Time</MenuItem>
-                        <MenuItem value="Business Trip">Business Trip</MenuItem>
+                        <MenuItem
+                            value="Working"
+                        >
+                            <ListItemIcon>
+                                <TripOriginIcon sx={{ height:12, color: red[500]}} />
+                            </ListItemIcon>
+
+                            <Typography>
+                                Working
+                            </Typography>
+                        </MenuItem>
+                        <MenuItem value="On Vacation">
+                            <ListItemIcon>
+                                <TripOriginIcon sx={{ height:12, color: blue[500]}} />
+                            </ListItemIcon>
+
+                            <Typography>
+                                On Vacation
+                            </Typography>
+                        </MenuItem>
+                        <MenuItem value="Lunch Time">
+                            <ListItemIcon>
+                                <TripOriginIcon sx={{ height:12, color: green[500]}} />
+                            </ListItemIcon>
+
+                            <Typography>
+                                Lunch Time
+                            </Typography>
+                        </MenuItem>
+                        <MenuItem value="Business Trip">
+                            <ListItemIcon>
+                                <TripOriginIcon sx={{ height:12, color: yellow[500]}} />
+                            </ListItemIcon>
+
+                            <Typography>
+                                Business Trip
+                            </Typography>
+                        </MenuItem>
                     </Select>
                 </Box>
             </CardContent>
