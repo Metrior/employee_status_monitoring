@@ -63,6 +63,9 @@ const usersSlice = createSlice({
                 const { data } = action.payload;
                 state.users = data;
             })
+            .addCase(updateUserById.rejected, () => {
+                console.error('Error')
+            })
             .addCase(createRandomUser.fulfilled, (state, action) => {
                 const { data } = action.payload;
                 state.users = state.users.concat(data);
