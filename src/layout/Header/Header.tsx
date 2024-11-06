@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useCallback} from 'react';
 import {useDispatch} from "react-redux";
 
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
@@ -9,9 +9,9 @@ const Header: React.FC = () => {
 
     const dispatch = useDispatch();
 
-    const handleLogout = () => {
+    const handleLogout = useCallback(() => {
         dispatch(logout());
-    };
+    }, [dispatch])
 
     return (
         <AppBar

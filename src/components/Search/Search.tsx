@@ -36,14 +36,14 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
         dispatch(createRandomUser())
     }, [dispatch])
 
-    const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const handleSearchChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value)
         onSearch(e.target.value, filter);
-    };
+    }, [filter, onSearch]);
 
-    const handleFilterChange = (e: SelectChangeEvent) => {
+    const handleFilterChange = useCallback((e: SelectChangeEvent) => {
         setFilter(e.target.value as Filter);
-    };
+    }, []);
 
     return (
         <Box sx={{
