@@ -17,7 +17,7 @@ const LazyRenderer: React.FC<LazyRendererProps> = ({ children }) => {
                     observer.disconnect();
                 }
             },
-            { threshold: 0.1 }
+            { rootMargin: '200px', threshold: 0.1 }
         );
 
         if (ref.current) {
