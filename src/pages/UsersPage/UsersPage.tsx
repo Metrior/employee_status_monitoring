@@ -1,7 +1,7 @@
 import React, {useCallback, useEffect, useMemo, useState} from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
-import { CircularProgress, Container } from '@mui/material';
+import {CircularProgress, Container, Typography} from '@mui/material';
 
 import {AppDispatch, RootState} from '../../store';
 import { getUsers } from '../../features/usersSlice';
@@ -19,7 +19,7 @@ interface Filter {
 const UsersPage: React.FC = () => {
     const dispatch = useDispatch<AppDispatch>();
 
-    const { users, status } = useSelector((state: RootState) => state.users);
+    const { users, status, error } = useSelector((state: RootState) => state.users);
     const [filter, setFilter] = useState<Filter>({query: '', type: 'name'});
 
     useEffect(() => {
@@ -37,14 +37,27 @@ const UsersPage: React.FC = () => {
     return (
         <Container
             sx={{
-                m: '40px auto'
+                m: '40px auto',
             }}
         >
             <Search onSearch={handleSearch} />
 
-            {status === 'loading' ? (
+            {status === 'loading' && (
                 <CircularProgress sx={{m:'20px 50%'}}/>
-            ) : (
+            )}
+
+            {status === 'succeeded' && (
+                <Typography
+                    color='error'
+                    sx={{
+                        m: '60px 0',
+                    }}
+                >
+                    {error}
+                </Typography>
+            )}
+
+            {status === 'succeeded' && (
                 <UsersList users={filteredUsers} />
             )}
         </Container>
