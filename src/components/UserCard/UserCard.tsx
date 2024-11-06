@@ -15,6 +15,8 @@ import {
 import TripOriginIcon from '@mui/icons-material/TripOrigin';
 import { red, blue, green, yellow } from '@mui/material/colors';
 
+import LazyRenderer from "../LazyRenderer";
+
 import {UpdateData, updateUserById} from '../../features/usersSlice';
 import {User} from '../../api/usersApi';
 
@@ -36,6 +38,7 @@ const UserCard: React.FC<UserCardProps> = memo(({ user }) => {
     }, [dispatch, user.id]);
 
     return (
+        <LazyRenderer>
         <Card
             variant="outlined"
             sx={{
@@ -120,6 +123,7 @@ const UserCard: React.FC<UserCardProps> = memo(({ user }) => {
                 </Box>
             </CardContent>
         </Card>
+        </LazyRenderer>
     );
 });
 

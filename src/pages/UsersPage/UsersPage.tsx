@@ -31,7 +31,7 @@ const UsersPage: React.FC = () => {
     }, []);
 
     const filteredUsers = useMemo(()=>{
-        return users.filter((user) => user[filter.type].toLowerCase().includes(filter.query.toLowerCase()))
+        return users.filter((user) => user?.[filter.type].toLowerCase().includes(filter.query.toLowerCase()))
     }, [filter, users])
 
     return (
