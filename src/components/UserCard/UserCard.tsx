@@ -1,29 +1,39 @@
-import React, {useCallback} from 'react';
+import React, {memo, useCallback} from 'react';
 import { useDispatch } from 'react-redux';
 
 import {Card, CardContent, Typography, Select, MenuItem, SelectChangeEvent, Avatar, Box} from '@mui/material';
 
-import {updateUserById} from '../../features/usersSlice';
+import {UpdateData, updateUserById} from '../../features/usersSlice';
 import {User} from '../../api/usersApi';
+
 import {AppDispatch} from "../../store";
 
 interface UserCardProps {
     user: User;
 }
 
-const UserCard: React.FC<UserCardProps> = ({ user }) => {
+const UserCard: React.FC<UserCardProps> = memo(({ user }) => {
     const dispatch = useDispatch<AppDispatch>();
 
     const handleSelectChange = useCallback((e: SelectChangeEvent) => {
         const status: string = e.target.value;
         dispatch(updateUserById({
             id: user.id,
-            data: { status }
+            data: { status } as UpdateData
         }));
     }, [dispatch, user.id]);
 
     return (
-        <Card variant="outlined">
+        <Card
+            variant="outlined"
+            sx={{
+                boxShadow: '0 4px 15px rgba(0, 0, 0, 0.1)',
+                transition: 'box-shadow 0.3s ease',
+                '&:hover': {
+                    boxShadow: (theme) => `0 4px 10px ${theme.palette.primary.main}50`,
+                },
+            }}
+        >
             <CardContent
                 sx={{
                     display: 'flex',
@@ -44,6 +54,9 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                         value={user.status}
                         onChange={handleSelectChange}
                         variant="standard"
+                        sx={{
+                            width: 130,
+                        }}
                     >
                         <MenuItem value="Working">Working</MenuItem>
                         <MenuItem value="On Vacation">On Vacation</MenuItem>
@@ -54,6 +67,6 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
             </CardContent>
         </Card>
     );
-};
+});
 
 export default UserCard;

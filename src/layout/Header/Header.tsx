@@ -1,7 +1,18 @@
 import React from 'react';
+import {useDispatch} from "react-redux";
+
 import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
 
+import {logout} from "../../features/authSlice.ts";
+
 const Header: React.FC = () => {
+
+    const dispatch = useDispatch();
+
+    const handleLogout = () => {
+        dispatch(logout());
+    };
+
     return (
         <AppBar
             position="static"
@@ -29,6 +40,7 @@ const Header: React.FC = () => {
                             textTransform: 'none',
                             fontWeight: 'bold'
                         }}
+                        onClick={handleLogout}
                     >
                         Log Out
                     </Button>

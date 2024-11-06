@@ -1,4 +1,6 @@
-import React, {ChangeEvent, useState} from 'react';
+import React, {ChangeEvent, useCallback, useState} from 'react';
+import {useDispatch} from "react-redux";
+
 import {
     Box,
     Button,
@@ -13,6 +15,9 @@ import {
 import AddIcon from '@mui/icons-material/Add';
 
 import {User} from "../../api/usersApi.ts";
+import {createRandomUser} from "../../features/usersSlice.ts";
+
+import {AppDispatch} from "../../store";
 
 interface SearchProps {
     onSearch: (query: string, type: keyof User) => void;
@@ -24,13 +29,20 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
     const [searchTerm, setSearchTerm] = useState('');
     const [filter, setFilter] = useState<Filter>('name');
 
+    const dispatch = useDispatch<AppDispatch>();
+
+    //API didn't specify what should be done, so just added such query
+    const handleCreate = useCallback(()=>{
+        dispatch(createRandomUser())
+    }, [dispatch])
+
     const handleSearchChange = (e: ChangeEvent<HTMLInputElement>) => {
         setSearchTerm(e.target.value)
         onSearch(e.target.value, filter);
     };
 
     const handleFilterChange = (e: SelectChangeEvent) => {
-        setFilter(e.target.value as 'status' | 'name');
+        setFilter(e.target.value as Filter);
     };
 
     return (
@@ -45,6 +57,7 @@ const Search: React.FC<SearchProps> = ({ onSearch }) => {
                 variant="contained"
                 endIcon={<AddIcon />}
                 sx={{ height: '100%' }}
+                onClick={handleCreate}
             >
                 Create
             </Button>

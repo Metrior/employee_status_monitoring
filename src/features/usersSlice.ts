@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice, PayloadAction} from '@reduxjs/toolkit';
-import {fetchUsers, updateUser, User,} from '../api/usersApi';
+import {fetchUsers, updateUser, createUser, User, Status} from '../api/usersApi';
 
 interface UsersState {
     users: User[];
@@ -8,7 +8,7 @@ interface UsersState {
 }
 
 export interface UpdateData {
-    status: string
+    status: Status
 }
 
 const initialState: UsersState = {
@@ -17,16 +17,27 @@ const initialState: UsersState = {
     error: null,
 };
 
-export const getUsers = createAsyncThunk('users/getUsers', async () => {
-    const res = await fetchUsers();
-    return res.data;
-});
+export const getUsers = createAsyncThunk(
+    'users/getUsers',
+    async () => {
+        const res = await fetchUsers();
+        return res.data;
+    }
+);
 
 export const updateUserById = createAsyncThunk(
     'users/updateUser',
     async ({ id, data }: { id: string; data: UpdateData }) => {
         const res = await updateUser(id, data);
-        return { id, data: res.data };
+        return { data: res.data };
+    }
+);
+
+export const createRandomUser = createAsyncThunk(
+    'users/addUser',
+    async () => {
+        const res = await createUser();
+        return res.data;
     }
 );
 
@@ -42,17 +53,22 @@ const usersSlice = createSlice({
             .addCase(getUsers.fulfilled, (state, action: PayloadAction<User[]>) => {
                 state.status = 'succeeded';
                 state.users = action.payload;
+                state.error = null;
             })
             .addCase(getUsers.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.error.message || 'Failed to load users';
             })
             .addCase(updateUserById.fulfilled, (state, action) => {
-                const { id, data } = action.payload;
-                const index = state.users.findIndex((user) => user.id === id);
-                if (index !== -1) {
-                    state.users[index] = { ...state.users[index], ...data };
-                }
+                const { data } = action.payload;
+                state.users = data;
+            })
+            .addCase(createRandomUser.fulfilled, (state, action) => {
+                const { data } = action.payload;
+                state.users = state.users.concat(data);
+            })
+            .addCase(createRandomUser.rejected, () => {
+                console.error('Error')
             });
     },
 });
